@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fe_bookly/masuk.dart';
+import 'package:fe_bookly/pages/masuk.dart';
 
 void main() {
   runApp(const MainApp());
