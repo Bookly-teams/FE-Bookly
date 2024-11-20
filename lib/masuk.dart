@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Daftar extends StatelessWidget {
-  const Daftar({super.key});
+class Masuk extends StatelessWidget {
+  const Masuk({super.key});
 
   @override
   Widget build(BuildContext context) {
