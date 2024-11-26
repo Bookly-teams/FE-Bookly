@@ -9,9 +9,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_svg: ^2.0.0
+  http: ^1.2.2
   provider: ^6.1.2
-  record: ^5.2.0
   shared_preferences: ^2.3.3
+  vector_graphics: ^1.1.15
 
 dev_dependencies:
   flutter_lints: ^4.0.0
@@ -20,3 +22,21 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/bookly.svg
+    - assets/images/backgroundlogin.png
+  fonts:
+    - family: Plus Jakarta Sans
+      fonts:
+        - asset: assets/fonts/PlusJakartaSans-Regular.ttf
+        - asset: assets/fonts/PlusJakartaSans-Medium.ttf
+        - asset: assets/fonts/PlusJakartaSans-Bold.ttf
+        - asset: assets/fonts/PlusJakartaSans-ExtraBold.ttf
+        - asset: assets/fonts/PlusJakartaSans-ExtraLight.ttf
+        - asset: assets/fonts/PlusJakartaSans-Light.ttf
+        - asset: assets/fonts/PlusJakartaSans-SemiBold.ttf
+        - asset: assets/fonts/PlusJakartaSans-ExtraBoldItalic.ttf
+        - asset: assets/fonts/PlusJakartaSans-Italic.ttf
+        - asset: assets/fonts/PlusJakartaSans-LightItalic.ttf
+        - asset: assets/fonts/PlusJakartaSans-MediumItalic.ttf
+        - asset: assets/fonts/PlusJakartaSans-SemiBoldItalic.ttf
