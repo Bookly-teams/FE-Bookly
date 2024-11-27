@@ -1,6 +1,4 @@
-// Login Bookly
 import 'dart:convert';
-
 import 'package:fe_bookly/constant.dart';
 import 'package:fe_bookly/models/api_response.dart';
 import 'package:fe_bookly/models/user.dart';

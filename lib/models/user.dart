@@ -22,11 +22,11 @@ class User {
     return User(
       id: json['user']['id'],
       email: json['user']['email'],
-      token: json['token'],
       namaPengguna: json['user']['nama_pengguna'],
       namaLengkap: json['user']['nama_lengkap'],
       fotoPengguna: json['user']['foto_pengguna'],
       karya: json['user']['karya'],
+      token: json['token'],
     );
   }
 }
