@@ -41,9 +41,9 @@ Future<ApiResponse> login(String email, String password) async {
 // Register
 Future<ApiResponse> register(
   String email,
-  String password,
-  String namaPengguna,
   String namaLengkap,
+  String namaPengguna,
+  String password,
 ) async {
   ApiResponse apiResponse = ApiResponse();
   try {
