@@ -4,6 +4,7 @@ const loginURL = baseURL + '/login';
 const registerURL = baseURL + '/register';
 const logoutURL = baseURL + '/logout';
 const userURL = baseURL + '/user';
+const bukuURL = baseURL + '/buku';
 
 // ----- Errors -----
 const serverError = 'Server error';
