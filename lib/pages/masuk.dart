@@ -1,4 +1,5 @@
 import 'package:fe_bookly/models/api_response.dart';
+import 'package:fe_bookly/pages/tulis.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart'; // Import flutter_svg
 import 'package:fe_bookly/pages/daftar.dart';
@@ -43,7 +44,7 @@ class _MasukState extends State<Masuk> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const Beranda(),
+        builder: (context) => const Tulis(),
       ),
     );
   }

@@ -10,7 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.0
+  google_fonts: ^6.2.1
   http: ^1.2.2
+  image_picker: ^1.1.2
   provider: ^6.1.2
   shared_preferences: ^2.3.3
   vector_graphics: ^1.1.15
@@ -23,8 +25,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/bookly.svg
-    - assets/images/backgroundlogin.png
+    - assets/images/
   fonts:
     - family: Plus Jakarta Sans
       fonts:

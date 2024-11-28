@@ -119,7 +119,7 @@ Future<String> getToken() async {
 // Get User Id
 Future<int> getUserId() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
-  return pref.getInt('userId') ?? 0;
+  return pref.getInt('id') ?? 0;
 }
 
 // Logout
