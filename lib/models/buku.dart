@@ -20,7 +20,7 @@ class Buku {
     return Buku(
       id: json['id'],
       cover: json['cover'],
-      judul: json['judu;'],
+      judul: json['judul'],
       deskripsi: json['deskripsi'],
       user: User(
         id: json['user']['id'],

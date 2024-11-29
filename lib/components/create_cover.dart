@@ -1,35 +1,31 @@
+// lib/components/create_cover.dart
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class CreateCover extends StatefulWidget {
-  const CreateCover({super.key});
+class CreateCover extends StatelessWidget {
+  final File? imageFile;
+  final Function(File) onImageSelected;
 
-  @override
-  State<CreateCover> createState() => _CreateCoverState();
-}
+  const CreateCover({
+    super.key,
+    required this.imageFile,
+    required this.onImageSelected,
+  });
 
-class _CreateCoverState extends State<CreateCover> {
-  File? imageFile;
-  final _picker = ImagePicker();
-
-  Future getImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+  Future<void> _getImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      setState(() {
-        imageFile = File(pickedFile.path);
-      });
+      onImageSelected(File(pickedFile.path));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        getImage();
-      },
+      onTap: _getImage,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 22),
         height: 154,
@@ -43,8 +39,7 @@ class _CreateCoverState extends State<CreateCover> {
                 image: imageFile == null
                     ? null
                     : DecorationImage(
-                        image: FileImage(imageFile ?? File('')),
-                        fit: BoxFit.cover),
+                        image: FileImage(imageFile!), fit: BoxFit.cover),
                 color: const Color(0xFFE4B1F0),
                 borderRadius: BorderRadius.circular(4),
               ),

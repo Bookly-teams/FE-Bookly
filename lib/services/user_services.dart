@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:fe_bookly/constant.dart';
 import 'package:fe_bookly/models/api_response.dart';
 import 'package:fe_bookly/models/user.dart';
@@ -126,4 +127,11 @@ Future<int> getUserId() async {
 Future<bool> logout() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   return await pref.remove('token');
+}
+
+// Get base64 encoded image
+String getStringImage(File? file) {
+  if (file == null) return '';
+  final bytes = file.readAsBytesSync();
+  return base64Encode(bytes);
 }

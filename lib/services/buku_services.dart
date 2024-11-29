@@ -19,7 +19,7 @@ Future<ApiResponse> getBuku() async {
 
     switch (response.statusCode) {
       case 200:
-        apiResponse.data = jsonDecode(response.body)['posts']
+        apiResponse.data = jsonDecode(response.body)['buku']
             .map((p) => Buku.fromJson(p))
             .toList();
         apiResponse.data as List<dynamic>;
@@ -49,7 +49,7 @@ Future<ApiResponse> tambahBuku(
           'Authorization': 'Bearer $token'
         },
         body: cover != null
-            ? {'cover': cover, 'judul': judul}
+            ? {'cover': cover, 'judul': judul, 'deskripsi': deskripsi}
             : {'deskripsi': deskripsi});
 
     switch (response.statusCode) {
@@ -151,7 +151,40 @@ Future<ApiResponse> lihatSatuBuku(int bukuId) async {
 
     switch (response.statusCode) {
       case 200:
-        apiResponse.data = jsonDecode(response.body)['posts']
+        apiResponse.data = jsonDecode(response.body)['buku']
+            .map((p) => Buku.fromJson(p))
+            .toList();
+        apiResponse.data as List<dynamic>;
+        break;
+      case 403:
+        apiResponse.error = jsonDecode(response.body)['message'];
+        break;
+      case 401:
+        apiResponse.error = unauthorized;
+        break;
+      default:
+        apiResponse.error = somethingWentWrong;
+        break;
+    }
+  } catch (e) {
+    apiResponse.error = serverError;
+  }
+  return apiResponse;
+}
+
+// Lihat satu buku
+Future<ApiResponse> getBukuUser() async {
+  ApiResponse apiResponse = ApiResponse();
+  try {
+    String token = await getToken();
+    final response = await http.get(Uri.parse('$baseURL/search/lbu'), headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    });
+
+    switch (response.statusCode) {
+      case 200:
+        apiResponse.data = jsonDecode(response.body)['buku']
             .map((p) => Buku.fromJson(p))
             .toList();
         apiResponse.data as List<dynamic>;
@@ -185,7 +218,7 @@ Future<ApiResponse> bacaBuku(int bukuId, int bagianId) async {
 
     switch (response.statusCode) {
       case 200:
-        apiResponse.data = jsonDecode(response.body)['posts']
+        apiResponse.data = jsonDecode(response.body)['buku']
             .map((p) => Buku.fromJson(p))
             .toList();
         apiResponse.data as List<dynamic>;
@@ -220,7 +253,7 @@ Future<ApiResponse> cariBuku(int bukuId, String judul) async {
 
     switch (response.statusCode) {
       case 200:
-        apiResponse.data = jsonDecode(response.body)['posts']
+        apiResponse.data = jsonDecode(response.body)['buku']
             .map((p) => Buku.fromJson(p))
             .toList();
         apiResponse.data as List<dynamic>;

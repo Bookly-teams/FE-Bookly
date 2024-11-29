@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class AddChapterButton extends StatelessWidget {
   final VoidCallback onPressed;
+  final bool loading;
 
   const AddChapterButton({
     required this.onPressed,
+    this.loading = false,
     super.key,
   });
 
@@ -13,11 +15,13 @@ class AddChapterButton extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: onPressed,
+        onTap: loading ? null : onPressed,
         borderRadius: BorderRadius.circular(20),
         child: Container(
           decoration: BoxDecoration(
-            color: const Color(0xFFF9EFFF),
+            color: loading
+                ? const Color(0xFFF9EFFF).withOpacity(0.7)
+                : const Color(0xFFF9EFFF),
             borderRadius: BorderRadius.circular(20),
             boxShadow: const [
               BoxShadow(
@@ -31,12 +35,22 @@ class AddChapterButton extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset(
-                'assets/images/create_plus.png',
-                width: 24,
-                height: 24,
-                semanticLabel: 'Add Chapter Icon',
-              ),
+              if (loading)
+                const SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Color(0xFF433878),
+                  ),
+                )
+              else
+                Image.asset(
+                  'assets/images/create_plus.png',
+                  width: 24,
+                  height: 24,
+                  semanticLabel: 'Add Chapter Icon',
+                ),
               const SizedBox(width: 6),
               const Text(
                 'Tambah Bab',

@@ -1,9 +1,16 @@
-import 'package:fe_bookly/pages/create_bagian.dart';
-import 'package:fe_bookly/pages/tulis.dart';
+// lib/pages/create_buku.dart
+import 'dart:io';
+import 'package:fe_bookly/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:fe_bookly/components/create_cover.dart';
 import 'package:fe_bookly/components/create_book_form.dart';
 import 'package:fe_bookly/components/add_chapter.dart';
+import 'package:fe_bookly/models/api_response.dart';
+import 'package:fe_bookly/pages/create_bagian.dart';
+import 'package:fe_bookly/pages/masuk.dart';
+import 'package:fe_bookly/pages/tulis.dart';
+import 'package:fe_bookly/services/buku_services.dart';
+import 'package:fe_bookly/services/user_services.dart';
 
 class CreateBuku extends StatefulWidget {
   const CreateBuku({super.key});
@@ -14,74 +21,102 @@ class CreateBuku extends StatefulWidget {
 
 class _CreateBukuState extends State<CreateBuku> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final bool _loading = false;
+  bool _loading = false; // Remove final to make it mutable
+  File? imageFile;
+
+  void _handleImageSelected(File image) {
+    setState(() {
+      imageFile = image;
+    });
+  }
+
+  void _createBook(String title, String description) async {
+    setState(() {
+      _loading = true; // Start loading
+    });
+
+    String? image = imageFile == null ? null : getStringImage(imageFile);
+    ApiResponse response = await tambahBuku(image, title, description);
+
+    setState(() {
+      _loading = false; // Stop loading
+    });
+
+    if (response.error == null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => CreateBagian()),
+      );
+    } else if (response.error == unauthorized) {
+      logout().then((value) => {
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const Masuk()),
+                (route) => false)
+          });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('${response.error}')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _loading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : ListView(
               children: [
                 Container(
                   constraints: const BoxConstraints(maxWidth: 480),
-                  margin: const EdgeInsets.symmetric(
-                      horizontal: 20), // Fixed margin
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   padding: const EdgeInsets.symmetric(vertical: 40),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 13),
-                        child: Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(
-                                        builder: (context) => const Tulis()),
-                                    (route) => false);
-                              },
-                              child: const Icon(Icons.arrow_back),
-                            ),
-                            const SizedBox(width: 9),
-                            const Text(
-                              'Tambahkan Informasi Cerita',
-                              style: TextStyle(
-                                fontFamily: 'Plus Jakarta Sans',
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      _buildHeader(),
                       const SizedBox(height: 21),
-                      const CreateCover(),
-                      const SizedBox(height: 55),
-                      Form(
-                        key: _formKey,
-                        child: const CreateBookForm(),
+                      CreateCover(
+                        imageFile: imageFile,
+                        onImageSelected: _handleImageSelected,
                       ),
-                      const SizedBox(height: 269),
-                      Center(
-                        child: AddChapterButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => CreateBagian(),
-                                ),
-                              );
-                            }
-                          },
-                        ),
+                      const SizedBox(height: 55),
+                      CreateBookForm(
+                        formKey: _formKey,
+                        onSubmit: _createBook,
                       ),
                     ],
                   ),
                 ),
               ],
             ),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 13),
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => const Tulis()),
+                  (route) => false);
+            },
+            child: const Icon(Icons.arrow_back),
+          ),
+          const SizedBox(width: 9),
+          const Text(
+            'Tambahkan Informasi Cerita',
+            style: TextStyle(
+              fontFamily: 'Plus Jakarta Sans',
+              fontWeight: FontWeight.w700,
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
