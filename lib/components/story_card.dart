@@ -39,3 +39,45 @@ class NewStoryCard extends StatelessWidget {
     );
   }
 }
+
+class StoryCard extends StatelessWidget {
+  final String? cover; // URL atau path ke gambar
+  final String? judul;
+
+  const StoryCard({super.key, required this.cover, required this.judul});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 25),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 93,
+            height: 144,
+            decoration: BoxDecoration(
+              color: const Color(0xFFF9EFFF),
+              borderRadius: BorderRadius.circular(4),
+              image: cover != null
+                  ? DecorationImage(
+                      image: AssetImage(cover!),
+                      fit: BoxFit.cover,
+                    )
+                  : null,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            judul ?? '',
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Plus Jakarta Sans',
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

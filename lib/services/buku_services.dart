@@ -19,7 +19,7 @@ Future<ApiResponse> getBuku() async {
 
     switch (response.statusCode) {
       case 200:
-        apiResponse.data = jsonDecode(response.body)['buku']
+        apiResponse.data = jsonDecode(response.body)['bukus']
             .map((p) => Buku.fromJson(p))
             .toList();
         apiResponse.data as List<dynamic>;
@@ -151,7 +151,7 @@ Future<ApiResponse> lihatSatuBuku(int bukuId) async {
 
     switch (response.statusCode) {
       case 200:
-        apiResponse.data = jsonDecode(response.body)['buku']
+        apiResponse.data = jsonDecode(response.body)['bukus']
             .map((p) => Buku.fromJson(p))
             .toList();
         apiResponse.data as List<dynamic>;
@@ -184,13 +184,15 @@ Future<ApiResponse> getBukuUser() async {
 
     switch (response.statusCode) {
       case 200:
-        apiResponse.data = jsonDecode(response.body)['buku']
-            .map((p) => Buku.fromJson(p))
-            .toList();
-        apiResponse.data as List<dynamic>;
-        break;
-      case 403:
-        apiResponse.error = jsonDecode(response.body)['message'];
+        // Periksa struktur JSON
+        var jsonResponse = jsonDecode(response.body);
+        if (jsonResponse['bukus'] != null) {
+          apiResponse.data = (jsonResponse['bukus'] as List)
+              .map((p) => Buku.fromJson(p))
+              .toList();
+        } else {
+          apiResponse.error = 'Data buku tidak ditemukan';
+        }
         break;
       case 401:
         apiResponse.error = unauthorized;
@@ -218,7 +220,7 @@ Future<ApiResponse> bacaBuku(int bukuId, int bagianId) async {
 
     switch (response.statusCode) {
       case 200:
-        apiResponse.data = jsonDecode(response.body)['buku']
+        apiResponse.data = jsonDecode(response.body)['bukus']
             .map((p) => Buku.fromJson(p))
             .toList();
         apiResponse.data as List<dynamic>;
@@ -253,7 +255,7 @@ Future<ApiResponse> cariBuku(int bukuId, String judul) async {
 
     switch (response.statusCode) {
       case 200:
-        apiResponse.data = jsonDecode(response.body)['buku']
+        apiResponse.data = jsonDecode(response.body)['bukus']
             .map((p) => Buku.fromJson(p))
             .toList();
         apiResponse.data as List<dynamic>;

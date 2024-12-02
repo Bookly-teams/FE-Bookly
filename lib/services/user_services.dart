@@ -114,7 +114,9 @@ Future<ApiResponse> getProfile() async {
 // Get Token
 Future<String> getToken() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
-  return pref.getString('token') ?? '';
+  String? token = pref.getString('token');
+  print('Retrieved Token: $token'); // Tambahkan print untuk debug
+  return token ?? '';
 }
 
 // Get User Id

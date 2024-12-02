@@ -1,5 +1,5 @@
 // ----- STRINGS ------
-const baseURL = 'https://85b1-180-248-186-196.ngrok-free.app/api';
+const baseURL = 'https://d3d7-110-136-195-55.ngrok-free.app/api';
 const loginURL = baseURL + '/login';
 const registerURL = baseURL + '/register';
 const logoutURL = baseURL + '/logout';

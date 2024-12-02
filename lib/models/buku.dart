@@ -22,9 +22,9 @@ class Buku {
       cover: json['cover'],
       judul: json['judul'],
       deskripsi: json['deskripsi'],
-      user: User(
-        id: json['user']['id'],
-      ),
+      user: json['user'] != null
+          ? User(id: json['user']['id'] ?? json['user_id'])
+          : null,
     );
   }
 }

@@ -17,7 +17,7 @@ class Tulis extends StatefulWidget {
 }
 
 class _TulisState extends State<Tulis> {
-  List<Buku> _getBukuUser = []; // Ubah menjadi List<Buku>
+  List<dynamic> _getBukuUser = []; // Ubah menjadi List<dynamic>
   int userId = 0;
 
   Future<void> ambilBukuUser() async {
@@ -29,7 +29,7 @@ class _TulisState extends State<Tulis> {
       if (response.data is List) {
         setState(() {
           _getBukuUser = response.data
-              as List<Buku>; // Asumsikan ada metode fromJson di model Buku
+              as List<dynamic>; // Asumsikan ada metode fromJson di model Buku
         });
       } else {
         // Jika data bukan List, tampilkan pesan kesalahan
@@ -95,15 +95,14 @@ class _TulisState extends State<Tulis> {
                         physics: const ClampingScrollPhysics(),
                         itemCount: _getBukuUser.length,
                         itemBuilder: (BuildContext context, int index) {
-                          Buku buku = _getBukuUser[index];
+                          Buku bukus = _getBukuUser[index];
                           return Container(
                             padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: Text(
-                              '${buku.judul}',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'Plus Jakarta Sans',
-                              ),
+                            child: StoryCard(
+                              judul: bukus
+                                  .judul, // Mengambil judul dari objek bukus
+                              cover: bukus
+                                  .cover, // Mengambil cover dari objek bukus
                             ),
                           );
                         },
