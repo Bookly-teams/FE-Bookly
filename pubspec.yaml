@@ -25,6 +25,18 @@ flutter:
   assets:
     - assets/images/bookly.svg
     - assets/images/backgroundlogin.png
+    - assets/images/cover_buku/one day one ayat juz 1.jpg
+    - assets/images/cover_buku/alphas destiny.jpg
+    - assets/images/cover_buku/ralion.jpg
+    - assets/images/cover_buku/true stalker.jpg
+    - assets/images/cover_buku/eva si tokoh figuran.jpg
+    - assets/images/cover_buku/ghost class.jpg
+    - assets/images/cover_buku/a feather away.jpg
+    - assets/images/cover_buku/linger.jpg
+    - assets/images/cover_buku/mr. right.jpg
+    - assets/images/cover_buku/not your princess.jpg
+    - assets/images/cover_buku/oon in action.jpg
+    - assets/images/cover_buku/terjebak kata sahabat.jpg
   fonts:
     - family: Plus Jakarta Sans
       fonts:
