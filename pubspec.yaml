@@ -10,7 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.0
+  google_fonts: ^6.2.1
   http: ^1.2.2
+  image_picker: ^1.1.2
   provider: ^6.1.2
   shared_preferences: ^2.3.3
   vector_graphics: ^1.1.15
@@ -23,20 +25,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/bookly.svg
-    - assets/images/backgroundlogin.png
-    - assets/images/cover_buku/one day one ayat juz 1.jpg
-    - assets/images/cover_buku/alphas destiny.jpg
-    - assets/images/cover_buku/ralion.jpg
-    - assets/images/cover_buku/true stalker.jpg
-    - assets/images/cover_buku/eva si tokoh figuran.jpg
-    - assets/images/cover_buku/ghost class.jpg
-    - assets/images/cover_buku/a feather away.jpg
-    - assets/images/cover_buku/linger.jpg
-    - assets/images/cover_buku/mr. right.jpg
-    - assets/images/cover_buku/not your princess.jpg
-    - assets/images/cover_buku/oon in action.jpg
-    - assets/images/cover_buku/terjebak kata sahabat.jpg
+    - assets/images/
+
   fonts:
     - family: Plus Jakarta Sans
       fonts:

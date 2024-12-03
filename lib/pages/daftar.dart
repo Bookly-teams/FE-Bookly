@@ -178,10 +178,6 @@ class _DaftarState extends State<Daftar> {
                               controller: namaPenggunaController,
                               decoration: InputDecoration(
                                 isDense: true,
-                                labelStyle: const TextStyle(
-                                  fontFamily: 'Space Grotesk',
-                                  letterSpacing: 0.0,
-                                ),
                                 hintText: 'Nama Pengguna',
                                 hintStyle: const TextStyle(
                                   fontFamily: 'Plus Jakarta Sans',

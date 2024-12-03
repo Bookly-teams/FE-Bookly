@@ -1,45 +1,25 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
+import 'package:fe_bookly/components/navigation_bar.dart';
 
-class Beranda extends StatefulWidget {
-  const Beranda({super.key});
+class Beranda extends StatelessWidget {
+  const Beranda({Key? key}) : super(key: key);
 
-  @override
-  State<Beranda> createState() => _BerandaState();
-}
-
-class _BerandaState extends State<Beranda> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 36),
           child: Column(
-            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: double.infinity,
-                height: MediaQuery.sizeOf(context).height * 1,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 60, 0, 0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Text(
-                        'Beranda',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 36,
-                          fontFamily: 'Plus Jakarta Sans',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              const SizedBox(height: 24),
+              const Spacer(),
+              const CustomNavigationBar(
+                currentIndex: 0,
               ),
             ],
           ),
