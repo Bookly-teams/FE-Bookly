@@ -50,11 +50,12 @@ Future<ApiResponse> tambahBuku(
         },
         body: cover != null
             ? {'cover': cover, 'judul': judul, 'deskripsi': deskripsi}
-            : {'deskripsi': deskripsi});
+            : {'judul': judul, 'deskripsi': deskripsi});
 
     switch (response.statusCode) {
       case 200:
-        apiResponse.data = jsonDecode(response.body);
+        var responseBody = jsonDecode(response.body);
+        apiResponse.data = {'buku_id': responseBody['buku']['id']};
         break;
       case 422:
         final errors = jsonDecode(response.body)['errors'];

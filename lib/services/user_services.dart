@@ -132,8 +132,7 @@ Future<bool> logout() async {
 }
 
 // Get base64 encoded image
-String getStringImage(File? file) {
-  if (file == null) return '';
-  final bytes = file.readAsBytesSync();
-  return base64Encode(bytes);
+String? getStringImage(File? file) {
+  if (file == null) return null;
+  return base64Encode(file.readAsBytesSync());
 }

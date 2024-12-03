@@ -27,6 +27,49 @@ class _CreateBookFormState extends State<CreateBookForm> {
     super.dispose();
   }
 
+  Widget _buildTitleField() {
+    return TextFormField(
+      controller: titleController,
+      decoration: const InputDecoration(
+        border: UnderlineInputBorder(),
+        hintText: 'Judul cerita',
+        hintStyle: TextStyle(
+          fontFamily: 'Plus Jakarta Sans',
+          color: Color(0xFF1D1D1D),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDescriptionField() {
+    return TextFormField(
+      controller: descriptionController,
+      decoration: const InputDecoration(
+        border: UnderlineInputBorder(),
+        hintText: 'Deskripsi cerita',
+        hintStyle: TextStyle(
+          fontFamily: 'Plus Jakarta Sans',
+          color: Color(0xFF1D1D1D),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAddChapterButton() {
+    return Center(
+      child: AddChapterButton(
+        onPressed: () {
+          if (widget.formKey.currentState!.validate()) {
+            widget.onSubmit(
+              titleController.text,
+              descriptionController.text,
+            );
+          }
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -36,42 +79,11 @@ class _CreateBookFormState extends State<CreateBookForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextFormField(
-              controller: titleController,
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                hintText: 'Judul cerita',
-                hintStyle: TextStyle(
-                  fontFamily: 'Plus Jakarta Sans',
-                  color: Color(0xFF1D1D1D),
-                ),
-              ),
-            ),
+            _buildTitleField(),
             const SizedBox(height: 119),
-            TextFormField(
-              controller: descriptionController,
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                hintText: 'Deskripsi cerita',
-                hintStyle: TextStyle(
-                  fontFamily: 'Plus Jakarta Sans',
-                  color: Color(0xFF1D1D1D),
-                ),
-              ),
-            ),
+            _buildDescriptionField(),
             const SizedBox(height: 269),
-            Center(
-              child: AddChapterButton(
-                onPressed: () {
-                  if (widget.formKey.currentState!.validate()) {
-                    widget.onSubmit(
-                      titleController.text,
-                      descriptionController.text,
-                    );
-                  }
-                },
-              ),
-            ),
+            _buildAddChapterButton(),
           ],
         ),
       ),

@@ -4,7 +4,6 @@ import 'package:fe_bookly/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:fe_bookly/components/create_cover.dart';
 import 'package:fe_bookly/components/create_book_form.dart';
-import 'package:fe_bookly/components/add_chapter.dart';
 import 'package:fe_bookly/models/api_response.dart';
 import 'package:fe_bookly/pages/create_bagian.dart';
 import 'package:fe_bookly/pages/masuk.dart';
@@ -32,27 +31,49 @@ class _CreateBukuState extends State<CreateBuku> {
 
   void _createBook(String title, String description) async {
     setState(() {
-      _loading = true; // Start loading
+      _loading = true;
     });
 
     String? image = imageFile == null ? null : getStringImage(imageFile);
-    ApiResponse response = await tambahBuku(image, title, description);
+    ApiResponse response = await tambahBuku(image ?? '', title, description);
 
     setState(() {
-      _loading = false; // Stop loading
+      _loading = false;
     });
 
     if (response.error == null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => CreateBagian()),
-      );
+      int? bukuId;
+      if (response.data != null && response.data is Map<String, dynamic>) {
+        // Konversi ke int
+        bukuId = int.tryParse(
+            (response.data as Map<String, dynamic>)['buku_id'].toString());
+
+        print('Buku ID yang didapat: $bukuId'); // Debug print
+
+        if (bukuId != null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CreateBagian(bukuId: bukuId!),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Gagal mendapatkan ID buku')),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Response data tidak valid')),
+        );
+      }
     } else if (response.error == unauthorized) {
-      logout().then((value) => {
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => const Masuk()),
-                (route) => false)
-          });
+      logout().then((_) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const Masuk()),
+          (route) => false,
+        );
+      });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('${response.error}')),

@@ -6,6 +6,7 @@ class Buku {
   String? judul;
   String? deskripsi;
   User? user;
+  int? totalBagian;
 
   Buku({
     this.id,
@@ -13,6 +14,7 @@ class Buku {
     this.judul,
     this.deskripsi,
     this.user,
+    this.totalBagian,
   });
 
   // function to convert json data to Buku model
@@ -21,6 +23,7 @@ class Buku {
       id: json['id'],
       cover: json['cover'],
       judul: json['judul'],
+      totalBagian: json['totalBagian'],
       deskripsi: json['deskripsi'],
       user: json['user'] != null
           ? User(id: json['user']['id'] ?? json['user_id'])

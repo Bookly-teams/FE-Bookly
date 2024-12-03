@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 class NewStoryCard extends StatelessWidget {
@@ -17,21 +19,19 @@ class NewStoryCard extends StatelessWidget {
               color: const Color(0xFFF9EFFF),
               borderRadius: BorderRadius.circular(4),
               // Put your image here
-              image: DecorationImage(
+              image: const DecorationImage(
                 image: AssetImage('assets/images/create_plus.png'),
                 alignment: Alignment.center,
               ),
             ),
           ),
           const SizedBox(height: 8),
-          Center(
-            child: Text(
-              'Buat cerita baru',
-              style: TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.w400,
-                fontFamily: 'Plus Jakarta Sans',
-              ),
+          const Text(
+            'Buat cerita baru',
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              fontFamily: 'Plus Jakarta Sans',
             ),
           ),
         ],
@@ -43,8 +43,10 @@ class NewStoryCard extends StatelessWidget {
 class StoryCard extends StatelessWidget {
   final String? cover; // URL atau path ke gambar
   final String? judul;
+  final int? totalBagian;
 
-  const StoryCard({super.key, required this.cover, required this.judul});
+  const StoryCard(
+      {super.key, required this.cover, required this.judul, this.totalBagian});
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +63,7 @@ class StoryCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(4),
               image: cover != null
                   ? DecorationImage(
-                      image: AssetImage(cover!),
+                      image: MemoryImage(base64Decode(cover!)),
                       fit: BoxFit.cover,
                     )
                   : null,
@@ -70,7 +72,18 @@ class StoryCard extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             judul ?? '',
-            style: TextStyle(
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              fontFamily: 'Plus Jakarta Sans',
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          const SizedBox(height: 8),
+          // Menampilkan totalBagian dengan label
+          Text(
+            '${totalBagian ?? 0} Bagian',
+            style: const TextStyle(
               fontSize: 10,
               fontWeight: FontWeight.w400,
               fontFamily: 'Plus Jakarta Sans',
