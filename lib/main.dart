@@ -1,3 +1,4 @@
+import 'package:fe_bookly/pages/beranda.dart';
 import 'package:flutter/material.dart';
 import 'package:fe_bookly/pages/masuk.dart';
 
@@ -13,7 +14,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Bookly',
-      home: Masuk(),
+      home: Beranda(),
       initialRoute: '/',
     );
   }

@@ -25,6 +25,15 @@ flutter:
   assets:
     - assets/images/bookly.svg
     - assets/images/backgroundlogin.png
+    - assets/images/orangbiasa.png
+    - assets/images/battlewithsenior.png
+    - assets/images/arunika.png
+    - assets/images/jamtanganarthur.png
+    - assets/images/binarrembulan.png
+    - assets/images/orangbiasa.png
+    - assets/images/serdadubulan.png
+    - assets/images/afeatheraway.png
+
   fonts:
     - family: Plus Jakarta Sans
       fonts:
