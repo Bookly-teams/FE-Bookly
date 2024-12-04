@@ -27,6 +27,8 @@ flutter:
   assets:
     - assets/images/
 
+flutter:
+  uses-material-design: true
   fonts:
     - family: Plus Jakarta Sans
       fonts:
