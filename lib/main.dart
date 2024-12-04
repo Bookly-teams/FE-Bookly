@@ -1,6 +1,5 @@
-import 'package:fe_bookly/pages/beranda.dart';
+import 'package:fe_bookly/pages/loading.dart';
 import 'package:flutter/material.dart';
-import 'package:fe_bookly/pages/masuk.dart';
 
 void main() {
   runApp(MainApp());
@@ -11,11 +10,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Bookly',
-      home: Beranda(),
-      initialRoute: '/',
+      home: Loading(),
     );
   }
 }

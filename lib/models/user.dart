@@ -10,11 +10,11 @@ class User {
   User({
     this.id,
     this.email,
-    this.token,
     this.namaPengguna,
     this.namaLengkap,
     this.fotoPengguna,
     this.karya,
+    this.token,
   });
 
   // function to convert json data to user model
