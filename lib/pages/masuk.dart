@@ -43,7 +43,7 @@ class _MasukState extends State<Masuk> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const Beranda(),
+        builder: (context) => Beranda(),
       ),
     );
   }

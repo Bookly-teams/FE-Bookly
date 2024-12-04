@@ -55,7 +55,7 @@ class _Daftar2State extends State<Daftar2> {
     await prefs.setInt('id', user.id ?? 0);
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => const Beranda(),
+        builder: (context) => Beranda(),
       ),
     );
   }
