@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:fe_bookly/components/headers.dart';
 import 'package:fe_bookly/pages/tulis.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -29,6 +28,25 @@ class _EditBukuState extends State<EditBuku> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Edit Buku'),
+        backgroundColor: Colors.white, // Fixed color
+        elevation: 0, // Optional: removes shadow
+        scrolledUnderElevation: 0, // Prevents color change on scroll
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Tulis(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.more_vert),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: _loading
             ? const Center(child: CircularProgressIndicator())
@@ -36,11 +54,6 @@ class _EditBukuState extends State<EditBuku> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    buildHeader(
-                      context: context,
-                      title: 'Edit Buku',
-                      destination: const Tulis(),
-                    ),
                     InkWell(
                       onTap: getImage,
                       child: Container(
@@ -107,7 +120,7 @@ class _EditBukuState extends State<EditBuku> {
                           Text(
                             'Assalamualaikum Ustadzah',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 16,
                               color: Color(0xFF6B6B6B),
                               fontWeight: FontWeight.w500,
                             ),
@@ -145,9 +158,11 @@ class _EditBukuState extends State<EditBuku> {
                       child: SingleChildScrollView(
                         child: Column(
                           children: List.generate(
-                              3,
+                              12,
                               (index) => Container(
                                     color: const Color(0xFFF1D8FF),
+                                    margin:
+                                        const EdgeInsets.symmetric(vertical: 2),
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 22, vertical: 16),
                                     child: Row(
@@ -187,50 +202,44 @@ class _EditBukuState extends State<EditBuku> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 2),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF9EFFF),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0x40000000),
-                            offset: Offset(0, 2),
-                            blurRadius: 2,
-                          ),
-                        ],
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 8),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(
-                            'assets/images/create_plus.png',
-                            width: 24,
-                            height: 24,
-                          ),
-                          const SizedBox(width: 2),
-                          const Text(
-                            'Tambah Bab',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xFF433878),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 30),
                     Center(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Save action
-                        },
-                        child: const Text('Simpan'),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF9EFFF),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color(0x40000000),
+                              offset: Offset(0, 2),
+                              blurRadius: 2,
+                            ),
+                          ],
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 8),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(
+                              'assets/images/create_plus.png',
+                              width: 24,
+                              height: 24,
+                            ),
+                            const SizedBox(width: 2),
+                            const Text(
+                              'Tambah Bab',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF433878),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
+                    const SizedBox(height: 40),
                   ],
                 ),
               ),
