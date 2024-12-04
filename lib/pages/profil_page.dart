@@ -1,34 +1,8 @@
 import 'dart:io';
 
+import 'package:fe_bookly/components/navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'pengaturan_page.dart';
-import 'pengguna_provider.dart'; // Impor provider Anda
-
-void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) => PenggunaProvider(),
-        ), // Tambahkan Provider
-      ],
-      child: const MyApp(),
-    ),
-  );
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const ProfilePage(),
-    );
-  }
-}
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -40,8 +14,6 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    final pengguna = Provider.of<PenggunaProvider>(context);
-    
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -93,11 +65,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             height: 84), // Menambah jarak di atas foto profil
                         CircleAvatar(
                           radius: 50,
-                          backgroundImage: pengguna.fotoProfil != null &&
-                                  pengguna.fotoProfil!.isNotEmpty
-                              ? FileImage(File(pengguna.fotoProfil!))
-                              : const AssetImage('assets/images/avatar.png')
-                                  as ImageProvider,
+                          backgroundImage:
+                              const AssetImage('assets/images/avatar.png'),
                         ),
                         SizedBox(height: 12),
                         Text(
@@ -263,6 +232,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ],
                     ),
+                  ),
+                  const SizedBox(height: 24),
+                  const CustomNavigationBar(
+                    currentIndex: 4,
                   ),
                 ],
               ),

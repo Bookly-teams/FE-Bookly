@@ -1,7 +1,10 @@
 import 'package:fe_bookly/pages/beranda.dart';
 import 'package:fe_bookly/pages/library.dart';
+import 'package:fe_bookly/pages/profil_page.dart';
 import 'package:fe_bookly/pages/profile.dart';
 import 'package:fe_bookly/pages/search.dart';
+import 'package:fe_bookly/pages/search_screen.dart';
+import 'package:fe_bookly/pages/testing.dart';
 import 'package:fe_bookly/pages/tulis.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +42,7 @@ class CustomNavigationBar extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => const Beranda()),
+                  MaterialPageRoute(builder: (context) => Beranda()),
                   (route) => false);
             },
             child: Image.asset(
@@ -53,7 +56,7 @@ class CustomNavigationBar extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => const Search()),
+                  MaterialPageRoute(builder: (context) => SearchScreen()),
                   (route) => false);
             },
             child: Image.asset(
@@ -95,7 +98,7 @@ class CustomNavigationBar extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => const Profile()),
+                  MaterialPageRoute(builder: (context) => const ProfilePage()),
                   (route) => false);
             },
             child: Image.asset(

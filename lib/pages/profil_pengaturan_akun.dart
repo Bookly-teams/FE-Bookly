@@ -1,16 +1,11 @@
-import 'dart:io';
-
+import 'package:fe_bookly/pages/edit_password.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'pengguna_provider.dart';
-import 'edit_profil.dart'; // Pastikan file ini ada dan berfungsi
-import 'edit_password.dart'; // Pastikan file ini ada dan berfungsi
 
 class ProfilPengaturanAkunPage extends StatelessWidget {
+  const ProfilPengaturanAkunPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final pengguna = Provider.of<PenggunaProvider>(context);
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -19,7 +14,7 @@ class ProfilPengaturanAkunPage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.pop(context); // Menambahkan aksi kembali
+            Navigator.pop(context);
           },
         ),
         title: const Text(
@@ -31,100 +26,57 @@ class ProfilPengaturanAkunPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: ListView(
           children: [
-            // Bagian Foto Profil
-            GestureDetector(
-              onTap: () {
-                // Mengarahkan ke halaman Ganti Foto Profil
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => GantiFotoProfilPage(
-                      fotoProfilAwal: pengguna.fotoProfil ?? '',
-                    ),
-                  ),
-                );
-              },
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundImage: pengguna.fotoProfil != null &&
-                            pengguna.fotoProfil!.isNotEmpty
-                        ? FileImage(File(pengguna.fotoProfil!))
-                        : const AssetImage('assets/images/avatar.png')
-                            as ImageProvider,
-                  ),
-                  const SizedBox(
-                      width: 16), // Memberikan jarak antara foto dan teks
-                  const Text(
-                    "Gambar Profil",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
+            // Profile Picture Section
+            Row(
+              children: [
+                const CircleAvatar(
+                  radius: 40,
+                  backgroundImage: AssetImage('assets/images/avatar.png'),
+                ),
+                const SizedBox(width: 16),
+                const Text(
+                  "Gambar Profil",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                ),
+              ],
             ),
             const SizedBox(height: 24),
-            // Bagian "Tentang"
+
+            // About Section
             const Text(
               "Tentang",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             ListTile(
               title: const Text('Nama Pengguna'),
-              subtitle: Text(pengguna.namaPengguna),
+              subtitle: const Text('@puanGacorrr'),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditNamaPage(
-                      title: "Nama Pengguna",
-                      initialValue: pengguna.namaPengguna,
-                      onSave: (namaBaru) {
-                        pengguna.ubahNamaPengguna(namaBaru);
-                      },
-                    ),
-                  ),
-                );
+                // Handle tap
               },
             ),
             ListTile(
               title: const Text('Nama Lengkap'),
-              subtitle: Text(pengguna.namaLengkap),
+              subtitle: const Text('Puan Maharani'),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditNamaPage(
-                      title: "Nama Lengkap",
-                      initialValue: pengguna.namaLengkap,
-                      onSave: (namaBaru) {
-                        pengguna.ubahNamaLengkap(namaBaru);
-                      },
-                    ),
-                  ),
-                );
+                // Handle tap
               },
             ),
             const SizedBox(height: 24),
-            // Bagian "Pengaturan Akun"
+
+            // Account Settings Section
             const Text(
               "Pengaturan Akun",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            ListTile(
-              title: const Text('Email'),
-              subtitle: Text(pengguna.email),
+            const ListTile(
+              title: Text('Email'),
+              subtitle: Text('puan_maharani2004@gmail.com'),
             ),
             ListTile(
               title: const Text('Kata Sandi'),
-              subtitle: Text(pengguna.kataSandi),
+              subtitle: const Text('********'),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => GantiKataSandiPage(),
-                  ),
-                );
+                // Handle password change
               },
             ),
             Align(

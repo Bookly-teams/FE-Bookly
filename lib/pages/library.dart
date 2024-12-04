@@ -1,3 +1,4 @@
+import 'package:fe_bookly/components/navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 class Library extends StatefulWidget {
@@ -10,6 +11,15 @@ class Library extends StatefulWidget {
 class _LibraryState extends State<Library> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Column(
+        children: [
+          const SizedBox(height: 24),
+          const CustomNavigationBar(
+            currentIndex: 2,
+          ),
+        ],
+      ),
+    );
   }
 }

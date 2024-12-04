@@ -1,3 +1,4 @@
+import 'package:fe_bookly/components/navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -24,7 +25,8 @@ class SearchScreen extends StatelessWidget {
       'image': "assets/images/afeatheraway.png",
       'title': 'A Feather Away',
       'author': '@eternalblooms',
-      'description': 'Pada pesta dansa musim dingin bertema masquerade, siapa sangka kalau Lyra...',
+      'description':
+          'Pada pesta dansa musim dingin bertema masquerade, siapa sangka kalau Lyra...',
     },
   ];
 
@@ -36,7 +38,12 @@ class SearchScreen extends StatelessWidget {
         elevation: 0,
         title: const Text(
           'Telusuri',
-          style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Plus Jakarta Sans', fontWeight: FontWeight.bold,),
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+            fontFamily: 'Plus Jakarta Sans',
+            fontWeight: FontWeight.bold,
+          ),
         ),
         centerTitle: false,
       ),
@@ -113,6 +120,10 @@ class SearchScreen extends StatelessWidget {
                   );
                 },
               ),
+            ),
+            const SizedBox(height: 24),
+            const CustomNavigationBar(
+              currentIndex: 1,
             ),
           ],
         ),
