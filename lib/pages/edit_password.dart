@@ -19,16 +19,25 @@ class _GantiKataSandiPageState extends State<GantiKataSandiPage> {
 
   Future<void> _updatePassword() async {
     setState(() => _isLoading = true);
-    final currentPassword = _currentPasswordController.text;
-    final newPassword = _newPasswordController.text;
-    final confirmPassword = _confirmPasswordController.text;
+
+    final currentPassword = _currentPasswordController.text.trim();
+    final newPassword = _newPasswordController.text.trim();
+    final confirmPassword = _confirmPasswordController.text.trim();
+
+    if (newPassword != confirmPassword) {
+      setState(() {
+        _errorMessage = 'Konfirmasi kata sandi tidak cocok.';
+        _isLoading = false;
+      });
+      return;
+    }
 
     try {
       final response = await http.post(
         Uri.parse('https://api.example.com/change-password'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer <TOKEN>',
+          'Authorization': 'Bearer <TOKEN>', // Ganti dengan token aktual
         },
         body: jsonEncode({
           'current_password': currentPassword,
@@ -42,14 +51,6 @@ class _GantiKataSandiPageState extends State<GantiKataSandiPage> {
           const SnackBar(content: Text('Kata sandi berhasil diubah')),
         );
         Navigator.pop(context);
-      } else if (response.statusCode == 401) {
-        setState(() {
-          _errorMessage = 'Password saat ini salah';
-        });
-      } else if (response.statusCode == 422) {
-        setState(() {
-          _errorMessage = 'Konfirmasi password baru tidak sesuai';
-        });
       } else {
         final responseData = jsonDecode(response.body);
         setState(() {
@@ -59,7 +60,7 @@ class _GantiKataSandiPageState extends State<GantiKataSandiPage> {
       }
     } catch (e) {
       setState(() {
-        _errorMessage = 'Terjadi kesalahan jaringan, coba lagi';
+        _errorMessage = 'Terjadi kesalahan jaringan, coba lagi.';
       });
     } finally {
       setState(() => _isLoading = false);
@@ -77,7 +78,10 @@ class _GantiKataSandiPageState extends State<GantiKataSandiPage> {
         ),
         title: const Text(
           'Ubah Kata Sandi',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontFamily: 'Plus Jakarta Sans'),
+          style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Plus Jakarta Sans'),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -112,7 +116,11 @@ class _GantiKataSandiPageState extends State<GantiKataSandiPage> {
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
                   _errorMessage!,
-                  style: const TextStyle(color: Colors.red, fontSize: 14, fontFamily: 'Plus Jakarta Sans'),
+                  style: const TextStyle(
+                    color: Colors.red,
+                    fontSize: 14,
+                    fontFamily: 'Plus Jakarta Sans',
+                  ),
                 ),
               ),
             const SizedBox(height: 20),
@@ -191,12 +199,18 @@ class _GantiKataSandiPageState extends State<GantiKataSandiPage> {
         children: const [
           Text(
             'Kata sandi Anda tidak memenuhi persyaratan.',
-            style: TextStyle(fontSize: 13, color: Colors.black, fontFamily: 'Plus Jakarta Sans'),
+            style: TextStyle(
+                fontSize: 13,
+                color: Colors.black,
+                fontFamily: 'Plus Jakarta Sans'),
           ),
           SizedBox(height: 8),
           Text(
             'Persyaratan kata sandi:',
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Plus Jakarta Sans'),
+            style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Plus Jakarta Sans'),
           ),
           SizedBox(height: 4),
           Text(
