@@ -41,6 +41,17 @@ class _ProfilPengaturanAkunPageState extends State<ProfilPengaturanAkunPage> {
         'profile_image_path', imagePath); // Menyimpan foto profil
   }
 
+  // Update the image provider logic
+  ImageProvider _getImageProvider() {
+    if (_fotoProfil != null && _fotoProfil!.isNotEmpty) {
+      final file = File(_fotoProfil!);
+      if (file.existsSync()) {
+        return FileImage(file);
+      }
+    }
+    return const AssetImage('assets/images/avatar.png');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,15 +79,14 @@ class _ProfilPengaturanAkunPageState extends State<ProfilPengaturanAkunPage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => GantiFotoProfilPage(
-                      fotoProfilAwal:
-                          _fotoProfil!, // Menggunakan foto profil awal
+                      fotoProfilAwal: _fotoProfil ??
+                          'assets/imPges/avatar.png', // Provide a default value
                     ),
                   ),
                 ).then((updatedImagePath) {
                   if (updatedImagePath != null) {
                     setState(() {
-                      _fotoProfil =
-                          updatedImagePath;
+                      _fotoProfil = updatedImagePath;
                     });
                     _saveFotoProfil(updatedImagePath);
                   }
@@ -86,11 +96,7 @@ class _ProfilPengaturanAkunPageState extends State<ProfilPengaturanAkunPage> {
                 children: [
                   CircleAvatar(
                     radius: 40,
-                    backgroundImage:
-                        _fotoProfil != null && _fotoProfil!.isNotEmpty
-                            ? FileImage(File(_fotoProfil!))
-                            : const AssetImage('assets/images/avatar.png')
-                                as ImageProvider,
+                    backgroundImage: _getImageProvider(),
                   ),
                   const SizedBox(width: 16),
                   const Text(
