@@ -1,5 +1,6 @@
 import 'package:fe_bookly/pages/beranda.dart';
 import 'package:fe_bookly/pages/library.dart';
+import 'package:fe_bookly/pages/perpustakaan.dart';
 import 'package:fe_bookly/pages/profil_page.dart';
 import 'package:fe_bookly/pages/search_screen.dart';
 import 'package:fe_bookly/pages/tulis.dart';
@@ -67,7 +68,7 @@ class CustomNavigationBar extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => const Library()),
+                  MaterialPageRoute(builder: (context) => Perpustakaan()),
                   (route) => false);
             },
             child: Image.asset(

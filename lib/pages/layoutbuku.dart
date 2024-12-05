@@ -8,19 +8,15 @@ class Layoutbuku extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 200,
-      height: 400,
-      decoration: BoxDecoration(
-        color: Colors.transparent, // Set background to transparent
-        borderRadius: BorderRadius.circular(8.0),
-      ),
+      constraints: BoxConstraints(maxHeight: 160), // Control maximum height
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center, // Center vertically
-        crossAxisAlignment: CrossAxisAlignment.center, // Center horizontally
+        mainAxisSize: MainAxisSize.min, // Use minimum space needed
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-         Container(
-            width: 80,
-            height: 120.0, // Tinggi tetap untuk cover
+          Container(
+            width: 70,
+            height: 100.0, // Reduced height
             child: ClipRRect(
               borderRadius: BorderRadius.circular(6.0), // Sudut melengkung
               child: Image.asset(
@@ -39,19 +35,21 @@ class Layoutbuku extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 8.0), // Jarak antara cover dan judul
-          // Judul buku
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              judul,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12.0, // Ukuran font judul
+          SizedBox(height: 4.0), // Reduced spacing
+          Flexible(
+            // Make text area flexible
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 4.0),
+              child: Text(
+                judul,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 11.0, // Slightly smaller font
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
-              textAlign: TextAlign.center, // Rata tengah teks
-              maxLines: 2, // Maksimal 2 baris
-              overflow: TextOverflow.ellipsis, // Potong jika teks terlalu panjang
             ),
           ),
         ],

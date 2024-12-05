@@ -30,6 +30,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/cover_buku/
   fonts:
     - family: Plus Jakarta Sans
       fonts:
