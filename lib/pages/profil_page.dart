@@ -1,8 +1,8 @@
 import 'dart:io';
-
-import 'package:fe_bookly/components/navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'pengaturan_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fe_bookly/components/navigation_bar.dart';
+import 'package:fe_bookly/pages/pengaturan_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -12,6 +12,28 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  String namaPengguna = "puanGacorrr";
+  String namaLengkap = "puan maharani";
+  String email = "puan_maharani2004@gmail.com";
+  String kataSandi = "********";
+  String? _fotoProfil;
+  int jumlahKarya = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFotoProfil(); // Load foto profil saat halaman pertama kali dibuka
+  }
+
+  // Fungsi untuk mengambil foto profil dari SharedPreferences
+  Future<void> _loadFotoProfil() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _fotoProfil = prefs.getString(
+          'profile_image_path'); // Ambil foto profil dari SharedPreferences
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +54,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           SafeArea(
             child: SingleChildScrollView(
-              // Membungkus seluruh konten dengan SingleChildScrollView
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -45,13 +66,15 @@ class _ProfilePageState extends State<ProfilePage> {
                         const SizedBox.shrink(),
                         IconButton(
                           icon: const Icon(Icons.settings, size: 28),
-                          onPressed: () {
-                            Navigator.push(
+                          onPressed: () async {
+                            await Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => PengaturanPage(),
                               ),
                             );
+                            // Reload the profile photo after returning
+                            _loadFotoProfil();
                           },
                         ),
                       ],
@@ -66,11 +89,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         CircleAvatar(
                           radius: 50,
                           backgroundImage:
-                              const AssetImage('assets/images/avatar.png'),
+                              _fotoProfil != null && _fotoProfil!.isNotEmpty
+                                  ? FileImage(File(_fotoProfil!))
+                                  : const AssetImage('assets/images/avatar.png')
+                                      as ImageProvider,
                         ),
                         SizedBox(height: 12),
                         Text(
-                          "Puan Maharani",
+                          namaLengkap,
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
@@ -78,7 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                         Text(
-                          "@puanGacorrr",
+                          "@$namaPengguna",
                           style: TextStyle(
                             color: Colors.grey,
                             fontFamily: 'Plus Jakarta Sans',
@@ -152,18 +178,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Column(
-                      // Ganti ListView dengan Column di sini
                       children: [
                         GestureDetector(
                           onTap: () {
                             // Navigasi ke halaman baca
                             print(
                                 "Navigasi menuju halaman baca (belum ada halaman tujuan)");
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => const BacaPage()),
-                            // );
                           },
                           child: Container(
                             decoration: BoxDecoration(

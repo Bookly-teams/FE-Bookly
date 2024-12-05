@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'profil_pengaturan_akun.dart'; // Import halaman ProfilPengaturanAkunPage
-import 'faq_page.dart';
+import 'package:fe_bookly/pages/profil_pengaturan_akun.dart';
+import 'package:fe_bookly/pages/faq_page.dart';
 
 class PengaturanPage extends StatelessWidget {
   const PengaturanPage({super.key});
@@ -15,7 +15,7 @@ class PengaturanPage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.pop(context); // Menambahkan aksi kembali
+            Navigator.pop(context);
           },
         ),
         title: const Text(
