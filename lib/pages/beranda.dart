@@ -12,21 +12,26 @@ class Beranda extends StatefulWidget {
 class _BerandaState extends State<Beranda> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 36),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: HomeScreen(),
-              ),
-              const SizedBox(height: 24),
-              const CustomNavigationBar(
-                currentIndex: 0,
-              ),
-            ],
+    return RefreshIndicator(
+      onRefresh: () async {
+        setState(() {});
+      },
+      child: const Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 36),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: HomeScreen(),
+                ),
+                SizedBox(height: 24),
+                CustomNavigationBar(
+                  currentIndex: 0,
+                ),
+              ],
+            ),
           ),
         ),
       ),

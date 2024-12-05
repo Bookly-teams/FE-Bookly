@@ -20,12 +20,23 @@ class Bagian {
   factory Bagian.fromJson(Map<String, dynamic> json) {
     return Bagian(
       id: json['id'],
-      judulBagian: json['judulBagian'],
+      judulBagian: json['judul_bagian'],
       isi: json['isi'],
-      tanggalPublikasi: json['tanggalPublikasi'],
+      tanggalPublikasi: json['tanggal_publikasi'],
       buku: json['buku'] != null
           ? Buku(id: json['buku']['id'] ?? json['buku_id'])
           : null,
     );
+  }
+
+  // Tambahkan method toJson untuk keperluan serialisasi
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'judulBagian': judulBagian,
+      'isi': isi,
+      'tanggalPublikasi': tanggalPublikasi,
+      'buku': buku?.id,
+    };
   }
 }

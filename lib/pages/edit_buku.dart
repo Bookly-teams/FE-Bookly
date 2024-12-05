@@ -1,11 +1,18 @@
+import 'dart:convert';
 import 'dart:io';
-import 'package:fe_bookly/components/headers.dart';
+import 'package:fe_bookly/constant.dart';
+import 'package:fe_bookly/models/api_response.dart';
+import 'package:fe_bookly/pages/masuk.dart';
 import 'package:fe_bookly/pages/tulis.dart';
+import 'package:fe_bookly/services/buku_services.dart';
+import 'package:fe_bookly/services/user_services.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class EditBuku extends StatefulWidget {
-  const EditBuku({super.key});
+  final int? bukuId;
+  const EditBuku({super.key, this.bukuId});
 
   @override
   State<EditBuku> createState() => _EditBukuState();
@@ -14,6 +21,7 @@ class EditBuku extends StatefulWidget {
 class _EditBukuState extends State<EditBuku> {
   bool _loading = false;
   File? imageFile;
+  List<dynamic> _dataBuku = [];
   final picker = ImagePicker();
 
   Future getImage() async {
@@ -26,9 +34,129 @@ class _EditBukuState extends State<EditBuku> {
     }
   }
 
+  Future<void> ambilDataBuku() async {
+    setState(() {
+      _loading = true;
+    });
+
+    try {
+      ApiResponse response = await lihatSatuBuku(widget.bukuId!);
+
+      if (response.error == null) {
+        if (response.data is List) {
+          setState(() {
+            _dataBuku = response.data as List<dynamic>;
+            _loading = false;
+          });
+        }
+      } else if (response.error == unauthorized) {
+        if (mounted) {
+          await logout();
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const Masuk()),
+            (route) => false,
+          );
+        }
+      } else {
+        setState(() {
+          _loading = false;
+        });
+        if (mounted) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('${response.error}')));
+        }
+      }
+    } catch (e) {
+      setState(() {
+        _loading = false;
+      });
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(e.toString())));
+      }
+    }
+  }
+
+  List<Widget> buildDaftarIsi() {
+    return _dataBuku.isNotEmpty && _dataBuku[0].bagian != null
+        ? List.generate(
+            _dataBuku[0].bagian.length,
+            (index) => Container(
+              color: const Color(0xFFF1D8FF),
+              margin: const EdgeInsets.symmetric(vertical: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _dataBuku[0].bagian![index].judulBagian ??
+                            'Judul Bagian tidak tersedia',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        _dataBuku[0].bagian![index].tanggalPublikasi != null
+                            ? DateFormat('dd/MM/yyyy').format(DateTime.parse(
+                                _dataBuku[0].bagian![index].tanggalPublikasi!))
+                            : 'Tanggal tidak tersedia',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFF6B6B6B),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Image.asset(
+                    'assets/images/icon_trash.png',
+                    width: 20,
+                    height: 20,
+                  ),
+                ],
+              ),
+            ),
+          )
+        : [
+            const Center(
+              child: Text('Tidak ada bab tersedia'),
+            )
+          ];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    ambilDataBuku();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Edit Buku'),
+        backgroundColor: Colors.white, // Fixed color
+        elevation: 0, // Optional: removes shadow
+        scrolledUnderElevation: 0, // Prevents color change on scroll
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Tulis(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.more_vert),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: _loading
             ? const Center(child: CircularProgressIndicator())
@@ -36,11 +164,6 @@ class _EditBukuState extends State<EditBuku> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    buildHeader(
-                      context: context,
-                      title: 'Edit Buku',
-                      destination: const Tulis(),
-                    ),
                     InkWell(
                       onTap: getImage,
                       child: Container(
@@ -56,16 +179,25 @@ class _EditBukuState extends State<EditBuku> {
                               width: 78,
                               height: 110,
                               decoration: BoxDecoration(
-                                image: imageFile == null
-                                    ? null
-                                    : DecorationImage(
-                                        image: FileImage(imageFile!),
+                                image: (_dataBuku.isNotEmpty &&
+                                        _dataBuku[0].cover != null)
+                                    ? DecorationImage(
+                                        image: MemoryImage(
+                                            base64Decode(_dataBuku[0].cover)),
                                         fit: BoxFit.cover,
-                                      ),
+                                      )
+                                    : (imageFile != null
+                                        ? DecorationImage(
+                                            image: FileImage(imageFile!),
+                                            fit: BoxFit.cover,
+                                          )
+                                        : null),
                                 color: const Color(0xFFE4B1F0),
                                 borderRadius: BorderRadius.circular(4),
                               ),
-                              child: imageFile == null
+                              child: (imageFile == null &&
+                                      (_dataBuku.isEmpty ||
+                                          _dataBuku[0].cover == null))
                                   ? Center(
                                       child: Image.asset(
                                         'assets/images/create_plus.png',
@@ -91,46 +223,51 @@ class _EditBukuState extends State<EditBuku> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Judul Cerita',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          SizedBox(height: 7),
+                          const SizedBox(height: 7),
                           Text(
-                            'Assalamualaikum Ustadzah',
-                            style: TextStyle(
-                              fontSize: 20,
+                            _dataBuku.isNotEmpty
+                                ? (_dataBuku[0].judul ?? 'Judul tidak tersedia')
+                                : 'Judul tidak tersedia',
+                            style: const TextStyle(
+                              fontSize: 16,
                               color: Color(0xFF6B6B6B),
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          SizedBox(height: 22),
-                          Text(
+                          const SizedBox(height: 22),
+                          const Text(
                             'Deskripsi Cerita',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          SizedBox(height: 7),
+                          const SizedBox(height: 7),
                           Text(
-                            'Assalamualaikum Ustadzah berkisah tentang perjalanan hidup Aisyah, seorang ustadzah muda yang baru saja ditugaskan di sebuah desa terpencil. Aisyah bertekad mengabdikan ilmunya untuk memberdayakan masyarakat, khususnya kaum perempuan yang selama ini terpinggirkan. Namun, kedatangannya tidak selalu disambut hangat; beberapa warga konservatif meragukan kemampuannya sebagai pemimpin perempuan. Cerita ini tidak hanya menyajikan lika-liku perjuangan, tetapi juga menyentuh tentang cinta yang tumbuh di antara dua insan yang dipersatukan oleh misi mulia.',
-                            style: TextStyle(
+                            _dataBuku.isNotEmpty
+                                ? (_dataBuku[0].deskripsi ??
+                                    'Deskripsi tidak tersedia')
+                                : 'Deskripsi tidak tersedia',
+                            style: const TextStyle(
                               fontSize: 12,
                               color: Color(0xFF6B6B6B),
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                          SizedBox(height: 16),
-                          Text(
+                          const SizedBox(height: 16),
+                          const Text(
                             'Daftar Isi',
                             style: TextStyle(
                               fontSize: 20,
@@ -140,97 +277,50 @@ class _EditBukuState extends State<EditBuku> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 200, // Limit the height of the scrollable area
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: List.generate(
-                              3,
-                              (index) => Container(
-                                    color: const Color(0xFFF1D8FF),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 22, vertical: 16),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Prolog',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                            SizedBox(height: 6),
-                                            Text(
-                                              '10/24/2024',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Color(0xFF6B6B6B),
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Image.asset(
-                                          'assets/images/icon_trash.png',
-                                          width: 20,
-                                          height: 20,
-                                        ),
-                                      ],
-                                    ),
-                                  )),
+                    // Limit the height of the scrollable area
+                    SingleChildScrollView(
+                      child: Column(
+                        children: buildDaftarIsi(),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF9EFFF),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color(0x40000000),
+                              offset: Offset(0, 2),
+                              blurRadius: 2,
+                            ),
+                          ],
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 8),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(
+                              'assets/images/create_plus.png',
+                              width: 24,
+                              height: 24,
+                            ),
+                            const SizedBox(width: 2),
+                            const Text(
+                              'Tambah Bab',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF433878),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    const SizedBox(height: 2),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF9EFFF),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0x40000000),
-                            offset: Offset(0, 2),
-                            blurRadius: 2,
-                          ),
-                        ],
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 8),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(
-                            'assets/images/create_plus.png',
-                            width: 24,
-                            height: 24,
-                          ),
-                          const SizedBox(width: 2),
-                          const Text(
-                            'Tambah Bab',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xFF433878),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Center(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Save action
-                        },
-                        child: const Text('Simpan'),
-                      ),
-                    ),
+                    const SizedBox(height: 40),
                   ],
                 ),
               ),

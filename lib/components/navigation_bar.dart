@@ -1,10 +1,7 @@
 import 'package:fe_bookly/pages/beranda.dart';
 import 'package:fe_bookly/pages/library.dart';
 import 'package:fe_bookly/pages/profil_page.dart';
-import 'package:fe_bookly/pages/profile.dart';
-import 'package:fe_bookly/pages/search.dart';
 import 'package:fe_bookly/pages/search_screen.dart';
-import 'package:fe_bookly/pages/testing.dart';
 import 'package:fe_bookly/pages/tulis.dart';
 import 'package:flutter/material.dart';
 
