@@ -65,6 +65,7 @@ class NovelChapterPage extends StatelessWidget {
             color: Colors.black,
             fontSize: 20,
             fontWeight: FontWeight.bold,
+            fontFamily: "Plus Sans Jakarta",
           ),
         ),
         centerTitle: true,
@@ -100,6 +101,7 @@ class NovelChapterPage extends StatelessWidget {
                         fontSize: 16,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
+                        fontFamily: "Plus Sans Jakarta",
                       ),
                     ),
                     Text(
@@ -107,6 +109,7 @@ class NovelChapterPage extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
+                        fontFamily: "Plus Sans Jakarta",
                       ),
                     ),
                   ],

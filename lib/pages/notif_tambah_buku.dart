@@ -23,6 +23,7 @@ void showCustomPopup(BuildContext context) {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
+                fontFamily: "Plus Sans Jakarta",
                 color: Colors.black,
               ),
             ),

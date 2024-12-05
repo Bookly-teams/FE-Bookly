@@ -47,6 +47,7 @@ class DetailNovelPage extends StatelessWidget {
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
+                        fontFamily: "Plus Sans Jakarta",
                       ),
                     ),
                     const SizedBox(height: 3.0),
@@ -60,13 +61,21 @@ class DetailNovelPage extends StatelessWidget {
                         const SizedBox(width: 5),
                         const Text(
                           'Marronad',
-                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                          style: TextStyle(
+                            fontSize: 12, 
+                            color: Colors.grey,
+                            fontFamily: "Plus Sans Jakarta",
+                            ),
                         ),
                         const SizedBox(width: 16),
                         const Icon(Icons.list, size: 16, color: Colors.grey),
                         const Text(
                           ' 50 Bagian',
-                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                          style: TextStyle(
+                            fontSize: 12, 
+                            color: Colors.grey,
+                            fontFamily: "Plus Sans Jakarta",
+                            )
                         ),
                       ],
                     ),
@@ -101,6 +110,7 @@ class DetailNovelPage extends StatelessWidget {
                               color: Colors.white,
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
+                              fontFamily: "Plus Sans Jakarta",
                             ),
                           ),
                         ),
@@ -157,6 +167,7 @@ class DetailNovelPage extends StatelessWidget {
                     fontSize: 15,
                     height: 1.5,
                     color: Colors.black87,
+                    fontFamily: "Plus Sans Jakarta",
                   ),
                 ),
               ),
