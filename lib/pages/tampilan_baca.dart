@@ -57,7 +57,7 @@ class _NovelPageState extends State<NovelPage> {
                 decoration: BoxDecoration(
                   color: Colors.brown.withOpacity(0.7),
                   image: const DecorationImage(
-                    image: AssetImage('assets/images/cover_baca.jpg'),
+                    image: AssetImage('assets/images/cover_tampilan.jpg'),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -78,6 +78,7 @@ class _NovelPageState extends State<NovelPage> {
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
+                    fontFamily: "Plus Sans Jakarta",
                   ),
                 ),
                 IconButton(
@@ -109,6 +110,7 @@ class _NovelPageState extends State<NovelPage> {
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Colors.brown,
+                      fontFamily: "Plus Sans Jakarta"
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -116,6 +118,7 @@ class _NovelPageState extends State<NovelPage> {
                   Text(
                     widget.content, // Use passed chapter content
                     style: const TextStyle(
+                      fontFamily: "Plus Sans Jakarta",
                       fontSize: 16,
                       color: Color(0xFF6D4C41),
                       height: 1.5,
