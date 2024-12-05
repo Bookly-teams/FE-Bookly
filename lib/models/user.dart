@@ -29,4 +29,17 @@ class User {
       token: json['token'],
     );
   }
+
+  // Tambahkan method toJson untuk keperluan serialisasi
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'email': email,
+      'namaPengguna': namaPengguna,
+      'namaLengkap': namaLengkap,
+      'fotoPengguna': fotoPengguna,
+      'karya': karya,
+      'token': token,
+    };
+  }
 }

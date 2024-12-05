@@ -19,10 +19,15 @@ Future<ApiResponse> getBuku() async {
 
     switch (response.statusCode) {
       case 200:
-        apiResponse.data = jsonDecode(response.body)['bukus']
-            .map((p) => Buku.fromJson(p))
-            .toList();
-        apiResponse.data as List<dynamic>;
+        // Periksa struktur JSON
+        var jsonResponse = jsonDecode(response.body);
+        if (jsonResponse['bagian'] != null) {
+          apiResponse.data = (jsonResponse['bagian'] as List)
+              .map((p) => Buku.fromJson(p))
+              .toList();
+        } else {
+          apiResponse.error = 'Data buku tidak ditemukan';
+        }
         break;
       case 401:
         apiResponse.error = unauthorized;
@@ -152,10 +157,13 @@ Future<ApiResponse> lihatSatuBuku(int bukuId) async {
 
     switch (response.statusCode) {
       case 200:
-        apiResponse.data = jsonDecode(response.body)['bukus']
-            .map((p) => Buku.fromJson(p))
-            .toList();
-        apiResponse.data as List<dynamic>;
+        var jsonResponse = jsonDecode(response.body);
+        if (jsonResponse['buku'] != null) {
+          // Changed: Parse single object instead of list
+          apiResponse.data = [Buku.fromJson(jsonResponse['buku'])];
+        } else {
+          apiResponse.error = 'Data buku tidak ditemukan';
+        }
         break;
       case 403:
         apiResponse.error = jsonDecode(response.body)['message'];

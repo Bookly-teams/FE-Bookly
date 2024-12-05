@@ -22,11 +22,11 @@ class _CreateBagiansFormState extends State<CreateBagiansForm> {
   final TextEditingController _judulBagianController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  bool _loading = false;
+  bool isLoading = false;
 
   void _createBagian(String judul, String content) async {
     setState(() {
-      _loading = true;
+      isLoading = true;
     });
 
     ApiResponse response = await tambahBagian(
@@ -36,7 +36,7 @@ class _CreateBagiansFormState extends State<CreateBagiansForm> {
     );
 
     setState(() {
-      _loading = false;
+      isLoading = false;
     });
 
     if (response.error == null) {

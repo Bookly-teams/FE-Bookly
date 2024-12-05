@@ -57,36 +57,59 @@ class _TulisState extends State<Tulis> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 36),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Tulis',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  height: 2,
-                  fontFamily: 'Plus Jakarta Sans',
-                ),
-              ),
-              const SizedBox(height: 24),
-              Expanded(
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio:
-                        0.9, // Sesuaikan rasio aspek sesuai kebutuhan
+    return RefreshIndicator(
+      onRefresh: () async {
+        await ambilBukuUser();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 36),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Tulis',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                    height: 2,
+                    fontFamily: 'Plus Jakarta Sans',
                   ),
-                  shrinkWrap: true,
-                  physics: const ClampingScrollPhysics(),
-                  itemCount: _getBukuUser.length + 1, // Add 1 for NewStoryCard
-                  itemBuilder: (BuildContext context, int index) {
-                    if (index == 0) {
+                ),
+                const SizedBox(height: 24),
+                Expanded(
+                  child: GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio:
+                          0.9, // Sesuaikan rasio aspek sesuai kebutuhan
+                    ),
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    itemCount:
+                        _getBukuUser.length + 1, // Add 1 for NewStoryCard
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index == 0) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const CreateBuku(),
+                                ),
+                              );
+                            },
+                            child: const NewStoryCard(),
+                          ),
+                        );
+                      }
+                      // Adjust index for actual book items
+                      final bukus = _getBukuUser[index - 1] as Buku;
                       return Padding(
                         padding: const EdgeInsets.only(right: 20),
                         child: GestureDetector(
@@ -94,32 +117,27 @@ class _TulisState extends State<Tulis> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const EditBuku(),
+                                builder: (context) =>
+                                    EditBuku(bukuId: bukus.id),
                               ),
                             );
                           },
-                          child: const NewStoryCard(),
+                          child: StoryCard(
+                            cover: bukus.cover,
+                            judul: bukus.judul,
+                            totalBagian: bukus.totalBagian,
+                          ),
                         ),
                       );
-                    }
-                    // Adjust index for actual book items
-                    final bukus = _getBukuUser[index - 1] as Buku;
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: StoryCard(
-                        cover: bukus.cover,
-                        judul: bukus.judul,
-                        totalBagian: bukus.totalBagian,
-                      ),
-                    );
-                  },
+                    },
+                  ),
                 ),
-              ),
-              const SizedBox(height: 24),
-              const CustomNavigationBar(
-                currentIndex: 3,
-              ),
-            ],
+                const SizedBox(height: 24),
+                const CustomNavigationBar(
+                  currentIndex: 3,
+                ),
+              ],
+            ),
           ),
         ),
       ),
